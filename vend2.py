@@ -10,7 +10,7 @@ load_dotenv()
 # Google Authentication
 PROJECT_ID = os.getenv('PROJECT_ID')
 DATASET_ID = os.getenv('DATASET_ID')
-TABLE_ID = os.getenv('TABLE_ID')
+TABLE_ID = 'vend_sales'
 
 # Replace with the path to your service account key file
 SERVICE_ACCOUNT_FILE = os.getenv('SERVICE_ACCOUNT_FILE')
@@ -121,6 +121,9 @@ schema = [
     bigquery.SchemaField("total_surcharge", "FLOAT"),
 ]
 
+# Create the table if it doesn't exist
+table = bigquery.Table(table_ref, schema=schema)
+table = client.create_table(table, exists_ok=True)
 
 # Function to fetch data from Vend API
 def fetch_vend_data(url, headers, params=None):
@@ -166,4 +169,3 @@ while True:
         break
 
 print("ETL process completed successfully.")
-#printjxxc
